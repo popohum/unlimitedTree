@@ -9,6 +9,6 @@ then build the data.php,change to you own data source function.
 like the index.php to build the tree
 
 ##如何安装
-将src 目录包含进项目，你也可以直接使用两个php文件。
+将src目录包含进项目，你也可以直接使用tree.func.php,buildTree.php这两个php文件。
 然后按照index.php中demo使用方法。直接包含进页面即可
 如有疑问，可提出issue。
