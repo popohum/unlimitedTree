@@ -1,3 +1,10 @@
+<?php
+require_once './src/data.php';
+require_once './src/buildTree.php';
+require_once './src/tree.func.php';
+$result = getData();
+$tree = new Tree($result);
+?>
 <html>
 <head>
     <style>
@@ -10,7 +17,7 @@
             padding: 19px;
             margin-bottom: 20px;
             background-color: #fbfbfb;
-            border: 1px solid #999;
+            border: 1px solid #48B74D;
             -webkit-border-radius: 4px;
             -moz-border-radius: 4px;
             border-radius: 4px;
@@ -79,41 +86,28 @@
 
         .tree a {
             color: #48b74d;
+            text-decoration: none;
         }
     </style>
-<link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.css" rel="stylesheet">
-<link href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">    
+    <link href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="tree well">
+    <?php
+    if ($tree) {
+        $tree = $tree->leaf();
+        printList($tree);
+    }
+    ?>
 </div>
 <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
-<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-    $(function () {
-        $.ajax({
-                    url: '../src/buildTree.php',
-                    async: true,
-                    data: {
-                        method:'getTree',
-                     },
-                    dataType: "json",
-                    success: function(data) {
-                         console.log(data);
-                    },
-                    error: function() {
-                        console.log(arguments);
-                    }
-                });
-
-    });
-
     $(function () {
         $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', '关闭节点');
         $('.tree ul li:not(.parent_li)').find(' > span > i ').addClass('fa-leaf').removeClass('fa-folder-open');
         $('.tree li a').attr('title', '修改分类');
-        $('.tree li a').each(function () {
-            $(this).attr('href', "cateEdit.php?id=" + $(this).attr('id'));
+        $('.tree li a').on('click',function () {
+             alert('Node:'+$(this).attr('id')+'父节点：'+$(this).parent().parent().parent('ul>a'));
         });
         $('.tree li.parent_li > span').on('click', function (e) {
             var children = $(this).parent('li.parent_li').find(' > ul > li');
